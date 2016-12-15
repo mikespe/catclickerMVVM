@@ -1,12 +1,34 @@
-var ViewModel = function() {
-  this.clickcount = ko.observable(0);
-  this.name = ko.observable('kitty');
-  this.imgsrc = ko.observable('https://www.royalcanin.com/~/media/Royal-Canin/Product-Categories/cat-adult-landing-hero.ashx');
-  this.attribution = ko.observable('artist');
+var initialcats = [
+  {
+    clickcount: 0,
+    name: 'scoopy',
+    imgsrc: 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg',
+    imgattribution: 'some guy',
+    nicknames: ['smitty', 'bert', 'LJ']
+  },
+  {
+    clickcount: 0,
+    name: 'boopy',
+    imgsrc: 'http://www.city-data.com/forum/attachments/cats/21337d1213200621-cat-pics-100_0560.jpg',
+    imgattribution: 'some guy',
+    nicknames: ['richard']
+  },
+  {
+    clickcount: 0,
+    name: 'poopy',
+    imgsrc: 'https://www.colourbox.de/preview/3523735-cat-animal.jpg',
+    imgattribution: 'some guy',
+    nicknames: ['Jimothy']
+  }
+];
 
-  this.incrementcounter = function() {
-    this.clickcount(this.clickcount() + 1);
-  };
+var cat = function(data) {
+
+  this.clickcount = ko.observable(data.clickcount);
+  this.name = ko.observable(data.name);
+  this.imgsrc = ko.observable(data.imgsrc);
+  this.attribution = ko.observable(data.imgattribution);
+  this.nicknames = ko.observable(data.nicknames);
 
   this.level = ko.computed(function() {
     var click = this.clickcount();
@@ -22,14 +44,27 @@ var ViewModel = function() {
       return level = 'click master';
     }
   }, this);
-
-  self.people = ko.observableArray([
-    { name: 'Bert' },
-    { name: 'Charles' },
-    { name: 'Denise' },
-    { name: 'Richy' },
-    { name: 'Joe Junioy' },
-  ]);
 }
+
+var ViewModel = function() {
+  var self = this;
+
+  this.catlist = ko.observableArray([]);
+
+  initialcats.forEach(function(catitem){
+    self.catlist.push( new cat(catitem) );
+  });
+
+  this.currentcat = ko.observable(this.catlist()[0]);
+
+  this.incrementcounter = function() {
+    this.clickcount(this.clickcount() + 1);
+  };
+
+  this.cngcurrent = function(e) {
+    self.currentcat(e);
+  };
+
+};
 
 ko.applyBindings(new ViewModel());

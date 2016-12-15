@@ -5,17 +5,20 @@
     <title>Cat Clicker</title>
 </head>
 <body>
-    <ul id="cat-list"></ul>
-    <div id="cat">
+    <ul id="cat-list" data-bind='foreach: catlist'>
+      <li data-bind='text: name, click: $parent.cngcurrent'>
+      </li>
+    </ul>
+    <div id="cat" data-bind="with:currentcat">
 
         <h2 id="cat-name" data-bind="text: name"></h2>
         <h2 id="cat-level" data-bind="text: level"></h2>
         <div id="cat-count" data-bind="text: clickcount"></div>
-        <img id="cat-img" src="" alt="cute cat" data-bind="click: incrementcounter, attr: {src: imgsrc}">
+        <img id="cat-img" width='200px' height='200px'  src="" alt="cute cat" data-bind="click: $parent.incrementcounter, attr: {src: imgsrc}">
         <h4>Nickname</h4>
-        <ul data-bind="foreach: people">
+        <ul data-bind="foreach: $parent.catlist">
             <li>
-                <span data-bind="text: name"> </span>
+                <span data-bind="text: nicknames"> </span>
             </li>
         </ul>
     </div>
